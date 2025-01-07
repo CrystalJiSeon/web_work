@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>index.html</title>
+</head>
+<body>
+	<h1>인덱스 페이지</h1>
+	<p>내 이름은 : <strong>수정</strong></p>
+	<img src="images/1.png">  <!-- 현재 위치를 기준으로 한 상대경로 이용해서 이미지 로딩 -->
+	<img src="/Hello/images/1.png"> <!-- 톰캣서버내에서의 절대경로 이용해서 이미지 로딩, 제일 많이 사용함-->
+	<img src="http://localhost:8888/Hello/images/1.png"><!-- 웹상에서의 절대경로를 이용해서 이미지 로딩 -->
+	<ul>
+	<li><a href="sub/play.html">놀러가기 with 상대경로</a></li>
+	<li><a href="/Hello/sub/play.html">놀러가기 with 톰캣서버내 절대경로</a></li>
+	<li><a href="http://localhost:8888/Hello/sub/play.html">놀러가기 with 웹상에서의 절대경로</a></li>
+	<li><a href="ping">핑</a></li>
+	</ul>
+</body>
+</html>
