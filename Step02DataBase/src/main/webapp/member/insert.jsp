@@ -24,16 +24,17 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<jsp:include page="/include/resource.jsp"></jsp:include>
 </head>
 <body>
-	<div class="container">
+	<div class="container mt-5">
 		<h3>알림</h3>
 		<%if(isSuccess){%>
-			<p><strong><%=name %></strong>님의 정보를 저장했습니다.</p>
-			<a href="list.jsp">목록보기</a>
+			<p class="alert alert-success"><strong><%=name %></strong>님의 정보를 저장했습니다.</p>
+			<a class="alert-link" href="list.jsp">목록보기</a>
 		<%}else{%>
-			<p>데이터 저장 실패</p>
-			<a href="insertform.jsp">다시 작성</a>
+			<p class="alert alert-danger">데이터 저장 실패</p>
+			<a class="alert-link" href="insertform.jsp">다시 작성</a>
 		<%}%>
 	</div>
 </body>

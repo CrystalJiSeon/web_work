@@ -1,18 +1,27 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+ 
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<jsp:include page="/include/resource.jsp"></jsp:include>
 </head>
 <body>
 	<div class="container">
+		<nav>
+			<ol class="breadcrumb">
+				<li class="breadcrumb-item"><a href="${pageContext.request.contextPath}/">Home</a></li>
+				<li class="breadcrumb-item"><a href="${pageContext.request.contextPath}/food/list.jsp">맛집 목록</a></li>
+				<li class="breadcrumb-item">맛집 추가</li>			
+			</ol>
+		</nav>
 		<h1>맛집 목록에 추가하기 양식</h1>
 		<form action="${pageContext.request.contextPath}/food/insert.jsp">
 		<div>
-			<label for="type">종류 구분</label>
-			<select name="type" id="type">
+			<label class="form-label" for="type">종류 구분</label>
+			<select class="form=control" name="type" id="type">
 				<option value="한식">한식</option>
 				<option value="중식">중식</option>
 				<option value="양식">양식</option>
