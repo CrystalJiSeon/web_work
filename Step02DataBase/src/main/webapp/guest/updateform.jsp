@@ -17,6 +17,13 @@
 <jsp:include page="/include/resource.jsp"></jsp:include>
 </head>
 <body>
+	<nav>
+		<ol class="breadcrumb">
+			<li class="breadcrumb-item"><a href="${pageContext.request.contextPath}/">Home</a></li>
+			<li class="breadcrumb-item"><a href="${pageContext.request.contextPath}/food/list.jsp">방명록 목록</a></li>
+			<li class="breadcrumb-item">새글작성</li>			
+		</ol>
+	</nav>
 	<div class="container">
 		<h1>방명록 글 수정 폼</h1>
 		<form action="update.jsp" method="post">

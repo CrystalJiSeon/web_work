@@ -8,16 +8,24 @@
 	String writer=request.getParameter("writer");
 	String content=request.getParameter("content");
 	String pwd=request.getParameter("pwd");
-	//2. DB에 저장
-	GuestDto dto =new GuestDto();
-	dto.setNum(num);
-	dto.setWriter(writer);
-	dto.setContent(content);
-	dto.setPwd(pwd);
 	
 	//GuestDao 객체의 참조값 얻어오기
 	GuestDao dao=GuestDao.getInstance();
-	boolean isSuccess=dao.update(dto);
+	//DB에 저장된 비밀번호를 가져와서
+	String savedPwd=dao.getData(num).getPwd();
+	
+	//지역변수 안에서만 있으면 사용할 수 없으니까 미리 선언하기
+	boolean isSuccess=false;
+	
+	//만일 비밀번호가 일치한다면
+	if(pwd.equals(savedPwd)){
+		GuestDto dto =new GuestDto();
+		dto.setNum(num);
+		dto.setWriter(writer);
+		dto.setContent(content);
+		dto.setPwd(pwd);
+		isSuccess= dao.update(dto);		
+	}	
 
 %>
     
