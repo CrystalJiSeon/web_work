@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<!-- vue js 로딩하기 -->
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+<body>
+	<div id="one">
+		<button id="changeBtn">변경하기</button>
+		<p id="fortune"></p>
+	</div>
+	<script>
+		let fortuneToday="Today is your lucky day";
+		document.querySelector("#fortune").innerText=fortuneToday;
+		document.querySelector("#changeBtn").addEventListener("click", ()=>{
+			fortuneToday = "You are filled with determination"
+			document.querySelector("#fortune").innerText=fortuneToday;//변수에 있는 내용을 UI에 반영하는 code가 필요함
+		});
+	</script>
+	<div id="two">
+		<button @click="change">변경하기</button>
+		<p>{{fortuneToday}}</p>	
+	</div>
+	<script>
+		//vuejs를 사용하는 코드 작성
+		new Vue({
+			el:"#two",//id가 two인 요소에서 일어나는 일을 vuejs로 제어하겠다는 의미
+			data:{
+				fortuneToday:"You are filled with determination"
+			},
+			methods:{
+				change: function(){
+					this.fortuneToday = "You are truly lucky";
+				}
+			}
+		});
+	</script>
+</body>
+</html>

@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+	<h1>jquery에서 ajax 요청하기</h1>
+	<input type="text" placeholder="메시지 입력" id="inputMsg" />
+	<button id="sendBtn">전송</button>
+	<script src="https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.min.js"></script>
+	<script>
+		//버튼 클릭했을 때 실행할 함수 등록
+		$("#sendBtn").click(()=>{
+			//input 요소에 입력한 내용 읽어오기
+			const msg=$("#inputMsg").val();
+			//jqery의 ajax()함수를 이용해서 페이지 전환 없이 서버에 요청하기
+			$.ajax({//fetch 대신에 사용하는 jqeury의 함수
+				url:"send.jsp", 
+				method:"post",
+				data:{msg:msg}, //{msg:msg}를 {msg}라고 줄여 쓸 수 있음
+				success:(response)=>{
+					console.log(response);//서버가 응답한 내용이 여기에서 출력이 됨
+				}
+			});
+		});
+		
+	</script>
+	
+</body>
+</html>

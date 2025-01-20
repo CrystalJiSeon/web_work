@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>/vue2/test02.html</title>
+</head>
+<body>
+	<div id="app">
+		<h1>이벤트 처리</h1>
+		<button v-on:click="clicked">{{count}}</button>
+		<button @click="clicked2">{{count2}}</button>
+		<p>
+			<button v-on:click="minus">-</button>
+			<strong>{{count3}}</strong>
+			<button v-on:click="plus">+</button>
+		</p>
+	</div>
+	<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+	<script>
+		new Vue({
+			el:"#app",
+			data:{
+				count:0,
+				count2:0,
+				count3:0
+			},
+			methods:{
+				clicked:function(){
+					this.count= this.count+1;
+				},
+				clicked2(){
+					//위에 함수 같은 애를 줄인 표현이 문법적으로 가능해졌다. 자주 쓸 것임.
+					this.count2++;
+				},
+				minus:function(){
+					this.count3--;
+				},
+				plus(){
+					this.count3++;
+				}
+			}
+		})
+	</script>
+</body>
+</html>

@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+	<button id="getBtn">친구 목록</button>
+	<h3>친구 목록입니다</h3>
+	<ul id="list">
+		
+	
+	</ul>
+	<script src="https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.min.js"></script>
+	<script>
+		$("#getBtn").click(()=>{
+	
+			$.ajax({
+					url: "friends.jsp",
+					method: "get",
+					success:(response)=>{
+						//response는 친구 이름이 들어있는 배열이다.
+						console.log(response);
+						//반복문 돌면서
+						for(let i=0; i<response.length; i++){
+							//반복 횟수만큼 li 요소를 만들고 이름을 출력하고 id가 list인 요소의 자식 요소로 추가
+							$("<li>").text(response[i]).appendTo("#list");
+						}
+					}
+			});			
+		})
+
+	</script>
+</body>
+</html>
