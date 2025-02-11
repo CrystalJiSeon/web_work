@@ -58,6 +58,7 @@
 	
 	//보여줄 페이지에 해당하는 글 목록을 얻어온다.
 	List<PostDto> list=PostDao.getInstance().getList(dto);
+	//jsp 페이지에서 응답에 필요한 데이터를 el에서 활용할 수 있도록 request 객체에 특정 키값으로 담는다.
 	request.setAttribute("list", list);
 	request.setAttribute("startPageNum", startPageNum);
 	request.setAttribute("endPageNum", endPageNum);
