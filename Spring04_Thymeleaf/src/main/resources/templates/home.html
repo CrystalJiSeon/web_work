@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<link rel="stylesheet" th:href="@{/css/custom.css}" />
+</head>
+<body>
+	<!--  웹브라우저가 무시하는 주석 : 클라이언트에게 출력은 되지만 웹브라우저가 화면에 표시하진 않음 -->
+	<!--/* 타임리프가 무시하는 주석은 이렇게 생겼다.*/-->
+	
+	
+	<div class="container">
+		<h1>인덱스입니다</h1>
+		<p>
+			오늘의 인물 : <strong>[[${personToday}]]</strong>  <!-- jsp였다면 ${requestScope.personToday}라고 작성됐을 거임 -->
+			<br />
+			오늘의 인물 : <strong th:text="${personToday}"></strong>
+			<br />
+			<img src="/spring04/images/1.jpg" alt="사진" />
+			<br />
+			<img th:src="@{/images/1.jpg}" alt="사진by 타임리프" />
+		</p>
+	</div>
+</body>
+</html>
