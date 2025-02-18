@@ -14,6 +14,10 @@ public class HomeController {
 		//응답에 필요한 데이터를 Model 객체에 담는다
 		model.addAttribute("personToday", personToday);
 		
+		//GET 방식 파라미터 출력 테스트를 위해서 필요한 sample 데이터도 Model 에 담기
+		model.addAttribute("id", 99);
+		model.addAttribute("category", "foods");
+		
 		/*
 		 *  아무런 설정 없이 여기에서 "home"이라는 문자열을 리턴하면 "/templates/"+home+".html"로 연결되어서 
 		 *  결국 /templates/home.html view 페이지로 응답하겠다는 의미가 된다.

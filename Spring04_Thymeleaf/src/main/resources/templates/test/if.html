@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+	<div class="container">
+		<p th:if="${true}">th:if true 이면 렌더링</p>
+		<p th:if="${false}">th:if false이면 렌더링 안되는 부분</p>
+		<p th:unless="${false}">th:unless false이면 렌더링 됨</p>
+		<p th:unless="${true}">th:unless true 이면 렌더링 안되는 부분</p>
+		
+		<h3>로그인 여부</h3>
+		<p th:if="${isLogin}">로그인 접속 중입니다</p>
+		<p th:unless="${isLogin}">로그아웃 된 상태입니다</p>
+		
+		<h3>성인 여부</h3>
+		<p th:if="${age>=18}">성인입니다</p>
+		<p th:unless="${age>=18}">미성년자입니다.</p>
+		
+		<h3>학점</h3>
+		<p th:if="${score>=90}">A학점</p>
+		<p th:if="${score >=80 and score<90}">B학점</p>
+		<p th:if="${score >=70 and score<80}">C학점</p>
+		<p th:if="${score >=60 and score<70}">D학점</p>
+		<p th:unless="${score>= 60}">F학점</p>
+		
+		<h3>직급</h3>
+		<div th:switch="${role}">
+			<p th:case="'admin'">관리자입니다</p>
+			<p th:case="'staff'">직원입니다</p>
+			<p th:case="'user'">사용자입니다</p>
+			<p th:case="*">알 수 없는 계정입니다</p>
+		</div>
+	</div>
+</body>
+</html>
