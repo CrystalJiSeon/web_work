@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+	<div class="container">
+		<h2>할일 수정하기</h2>
+		<form th:action="@{/todo/update}" method="post">
+			<div>
+				<input type="text" name="id" th:value="${dto.id}" readonly/>
+			</div>
+			<div>
+				<input type="text" name="content" placeholder="할일을 입력하세요"/>
+			</div>
+			<div>
+				<input type="date" name="regdate" placeholder="날짜를 입력하세요"/>
+			</div>
+			<button type="submit"> 할일 수정하기 </button>	
+		</form>
+	</div>
+	
+</body>
+</html>

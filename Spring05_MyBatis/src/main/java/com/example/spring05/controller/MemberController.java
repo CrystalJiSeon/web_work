@@ -27,7 +27,7 @@ public class MemberController {
 	@GetMapping("/member/delete")
 	public String delete(int num) {
 		dao.delete(num);
-		return "member/delete";
+		return "redirect:/member/list";
 	}
 	
 	

@@ -22,6 +22,12 @@ public class MemberDaoImpl implements MemberDao{
 		List<MemberDto> list= session.selectList("member.getList");
 		return list;
 	}
+	
+	@Override
+	public MemberDto getData(int num) {
+		MemberDto dto=session.selectOne("member.getData", num);
+		return dto;
+	}
 
 	@Override
 	public void insert(MemberDto dto) {
@@ -41,10 +47,5 @@ public class MemberDaoImpl implements MemberDao{
 		
 	}
 
-	@Override
-	public MemberDto getData(int num) {
-		MemberDto dto=session.selectOne("member.getData", num);
-		return dto;
-	}
 
 }
