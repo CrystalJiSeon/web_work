@@ -33,3 +33,17 @@ CREATE TABLE readed_data(
 	num NUMBER REFERENCES posts(num),
 	session_id VARCHAR2(50)
 );
+
+
+create table files(
+num number primary key,
+uploader varchar2(100) not null,
+title varchar2(100) not null,
+orgFileName varchar2(100) not null,
+savefilename varchar2(100) not null,
+filesize number not null,
+uploadedat date)
+  
+create sequence files_seq;
+
+Sequence created.

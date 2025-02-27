@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="files">
+
+	<sql id="column">
+		num, uploader, title, orgFilename, savefilename, filesize, uploadedAt
+	</sql>
+
+	<insert id="insert" parameterType="com.example.spring10.dto.FileDto">
+		insert into files
+		(<include refid="column"/>)
+		values 	
+		(files_seq.nextval, #{uploader}, #{title}, #{orgFileName}, #{saveFileName}, #{fileSize}, sysdate)		
+	</insert>
+	
+	<delete id="delete" parameterType="long">
+		delete from files
+		where num=#{num}
+	</delete>
+	
+	<update id="update" parameterType="com.example.spring10.dto.FileDto">
+		update files
+		set uploader=#{uploader}, title=#{title}, orgfilename=#{orgFileName}, savefilename=#{saveFileName}, filesize=#{fileSize} 
+		where num=#{num}
+	</update>
+	
+	<select id="getData" parameterType="long" resultType="com.example.spring10.dto.FileDto">
+		select * from files
+		where num=#{num}
+	</select>
+	
+	<select id="getList" parameterType="com.example.spring10.dto.FileDto" resultType="com.example.spring10.dto.FileDto">
+		select *
+		from files
+		order by num desc
+	</select>
+
+
+</mapper>

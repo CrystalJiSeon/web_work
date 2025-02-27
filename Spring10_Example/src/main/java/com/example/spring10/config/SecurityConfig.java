@@ -23,7 +23,8 @@ public class SecurityConfig {
 	@Bean //메소드에서 리턴되는 SecurityFilterChain 을 bean 으로 만들어준다.
 	public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception{
 		String[] whiteList= {"/", "/play", "/user/loginform", "/user/login-fail", "/user/expired", 
-				"/user/signup-form", "/user/signup", "/user/checkid","/upload/**","/post/list", "/post/view**"};
+				"/user/signup-form", "/user/signup", "/user/checkid","/upload/**","/post/list", "/post/view**", 
+				"/file/list"};
 		
 		httpSecurity
 		.headers(header->header.frameOptions(option->option.sameOrigin()))

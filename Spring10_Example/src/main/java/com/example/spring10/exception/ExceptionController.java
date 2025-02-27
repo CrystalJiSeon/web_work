@@ -1,5 +1,6 @@
 package com.example.spring10.exception;
 
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -22,4 +23,12 @@ public class ExceptionController {
 		//  user/edit-password로 요청을 다시 하라고 리다이렉트 요청하기
 		return "redirect:/user/edit-password";
 	}
+	//거부된 요청일 때 실행되는 메소드
+	@ExceptionHandler(DeniedException.class)
+	public String denied(DeniedException de, Model model) {
+		//예외 객체를 template 페이지에 전달하기
+		model.addAttribute("exception",de);
+		return "error/denied";
+	}
+	
 }
