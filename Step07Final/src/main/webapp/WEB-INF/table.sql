@@ -47,3 +47,9 @@ uploadedat date)
 create sequence files_seq;
 
 Sequence created.
+
+CREATE TABLE downloaded_data(
+	num NUMBER REFERENCES files(num),
+	session_Id VARCHAR2(50)
+);
+

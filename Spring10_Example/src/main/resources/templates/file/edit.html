@@ -6,6 +6,7 @@
 </head>
 <body>
 	<div class="container">
+		<h1>파일 수정하기</h1>
 		<form th:action="@{/file/update}" method="post" enctype="multipart/form-data">
 			<label for="num">
 				파일 번호 : <input type="text" th:value="${num}" name="num" readonly />

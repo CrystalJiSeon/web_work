@@ -37,16 +37,16 @@ public class FileController {
 		boolean uploadSuccess=false;
 		System.out.println(dto);
 		if(dto!=null) {
-			uploadSuccess=true;
-			ra.addFlashAttribute(uploadSuccess);
+			ra.addFlashAttribute("uploadSuccess", "파일이 성공적으로 업로드되었습니다.");
 		}
 		System.out.println(uploadSuccess);
 		return "redirect:/file/list";
 	}
 	
 	@GetMapping("/file/delete")
-	public String deleteFile(long num) {
+	public String deleteFile(long num, RedirectAttributes ra) {
 		service.deleteFile(num);
+		ra.addFlashAttribute("deleteSuccess", "파일이 성공적으로 삭제되었습니다.");
 		return "redirect:/file/list";
 	}
 	
@@ -57,8 +57,9 @@ public class FileController {
 	}
 	
 	@PostMapping("/file/update")
-	public String updateFile(String title, MultipartFile myFile, long num, Model model) {
+	public String updateFile(String title, MultipartFile myFile, long num, Model model, RedirectAttributes ra) {
 		service.editFile(title, myFile, num);
+		ra.addFlashAttribute("editSuccess", "파일이 성공적으로 수정되었습니다.");
 		return "redirect:/file/list";
 	}
 	
