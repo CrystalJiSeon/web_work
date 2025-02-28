@@ -1,5 +1,7 @@
 package com.example.spring10.dto;
 
+import java.util.List;
+
 import org.springframework.web.multipart.MultipartFile;
 
 import lombok.AllArgsConstructor;
@@ -31,4 +33,12 @@ public class FileDto {
 	private String keyword;//검색 키워드 : writer 또는 title, 또는 title+content
 	private long prevNum;//이전글 글번호
 	private long nextNum;//다음글 글번호
+	//FileListDto 를 따로 만들지 않고 여기다가 만들었음
+	private List<FileDto> list;
+	private int pageNum;
+	private int startPageNum;
+	private int endPageNum;
+	private int totalRow;
+	private int totalPageCount;
+	private String findQuery;
 }

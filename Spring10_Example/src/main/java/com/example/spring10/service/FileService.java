@@ -1,6 +1,6 @@
 package com.example.spring10.service;
 
-import java.util.List;
+
 
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.http.ResponseEntity;
@@ -14,6 +14,6 @@ public interface FileService {
 	public int deleteFile(long num);
 	public int editFile(String title, MultipartFile myFile, long num);
 	public FileDto getData(long num);
-	public List<FileDto> getList(FileDto dto);
+	public FileDto getFileList(FileDto search, int pageNum);
 	public ResponseEntity<InputStreamResource> downloadFile(FileDto dto);
 }

@@ -8,7 +8,7 @@
 <body>
 	<div class="container">
 		<a th:href="@{/file/new}">파일 업로드하기</a>
-	<!-- 	<a th:href="/">홈으로</a> -->
+		<a th:href="@{/}">홈으로</a>
 		<h1>자료실 - 파일 목록입니다.</h1>
 		<table class="table table-striped">
 			<thead class="table-dark">
@@ -24,19 +24,49 @@
 				</tr>
 			</thead>
 			<tbody>
-				<tr th:each="file: ${fileList}" >
+				<tr th:each="file: ${dto.list}" >
 					<th>[[${file.num}]]</th>
 					<th>[[${file.title}]]</th>
 					<th>[[${file.uploader}]]</th>
 					<th>[[${file.uploadedAt}]]</th>
-					<th><a th:href="@{/file/download(num=${file.num})}">다운로드</a></th>
+					<th><a th:href="@{/file/download(num=${dto.num})(findQuery=${dto.findQuery})}">다운로드</a></th>
 					<th>어떡하지</th>
-					<th><a th:href="@{/file/edit(num=${file.num})}">수정</a></th>
-					<th><a th:href="@{/file/delete(num=${file.num})}">삭제</a></th>
+					<th><a th:href="@{/file/edit(num=${dto.num})(findQuery=${dto.findQuery})}">수정</a></th>
+					<th><a th:href="@{/file/delete(num=${dto.num})(findQuery=${dto.findQuery})}">삭제</a></th>
 				</tr>
 			</tbody>
 		</table>
+		<!-- 페이징 -->
+		<nav>
+            <ul class="pagination" th:if="${dto.totalPageCount ne 0}">
+                <li th:if="${dto.startPageNum ne 1}" class="page-item">
+                    <a class="page-link" th:href="@{|/file/list?pageNum=${dto.startPageNum - 1}${dto.findQuery}|}">Prev</a>
+                </li>
+                <li th:each="i : ${#numbers.sequence(dto.startPageNum, dto.endPageNum)}" class="page-item" th:classappend="${i} == ${dto.pageNum} ? 'active'">
+                    <a class="page-link" th:href="@{|/file/list?pageNum=${i}${dto.findQuery}|}">[[${i}]]</a>
+                </li>
+                <li th:if="${dto.endPageNum lt dto.totalPageCount}" class="page-item">
+                    <a class="page-link" th:href="@{|/file/list?pageNum=${dto.endPageNum + 1}${dto.findQuery}|}">Next</a>
+                </li>
+            </ul>
+        </nav>
+        <!-- 검색 폼 -->
+        <form th:action="@{/file/list}" method="get">
+			<label for="condition">검색조건</label>
+			<select name="condition" id="condition">
+				<option value="title" th:selected="${dto.condition eq 'title'}">제목</option>
+				<option value="uploader" th:selected="${dto.condition eq 'uploader'}">작성자</option>
+			</select>	
+			<input type="text" name="keyword" placeholder="검색어..." th:value="${dto.keyword}"/>
+			<button class="btn btn-primary btn-sm" type="submit">검색</button>
+			<a th:href="@{/file/list}" class="btn btn-success btn-sm">새로고침</a>
+		</form>
+		
+		<p th:if="${not #strings.isEmpty(dto.keyword)}">
+			<strong th:text="${dto.totalRow}"></strong> 개의 글이 검색 되었습니다
+		</p>
 	</div> 
+	
 	<script th:if="${uploadSuccess}">
 		alert("파일이 업로드되었습니다.");
 	</script>

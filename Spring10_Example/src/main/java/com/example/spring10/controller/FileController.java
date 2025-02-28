@@ -1,7 +1,5 @@
 package com.example.spring10.controller;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.http.ResponseEntity;
@@ -9,6 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -21,12 +20,9 @@ public class FileController {
 	@Autowired private FileService service;
 	
 	@GetMapping("/file/list")
-	public String listFile(Model model, FileDto dto) {	
-		List<FileDto> fileList = service.getList(dto);
-		long num=dto.getNum(); 
-		model.addAttribute("fileList", fileList);
-		model.addAttribute("num", num);
-		System.out.println(fileList);
+	public String listFile(Model model, FileDto search,@RequestParam(defaultValue="1") int pageNum) {	
+		FileDto dto = service.getFileList(search, pageNum);
+		model.addAttribute("dto", dto);
 		return "file/list";
 	}
 	

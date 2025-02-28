@@ -16,11 +16,13 @@ public class FileDaoImpl implements FileDao {
 	
 	@Override
 	public int insert(FileDto dto) {
+		//파일의 번호는 files_seq라는 이름의 시퀀스로 넣기
 		return session.insert("files.insert", dto);
 	}
 
 	@Override
 	public int update(FileDto dto) {
+	
 		return session.insert("files.update", dto);
 	}
 
@@ -45,8 +47,8 @@ public class FileDaoImpl implements FileDao {
 	}
 
 	@Override
-	public int getRowNum(FileDto dto) {
-		return 0;
+	public int getCount(FileDto dto) {
+		return session.selectOne("files.getCount", dto);
 	}
 
 }

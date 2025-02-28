@@ -11,5 +11,5 @@ public interface FileDao {
 	public FileDto getData(long num);
 	public List<FileDto> getList(FileDto dto);
 	public int getSequence(FileDto dto);
-	public int getRowNum(FileDto dto);
+	public int getCount(FileDto dto);
 }

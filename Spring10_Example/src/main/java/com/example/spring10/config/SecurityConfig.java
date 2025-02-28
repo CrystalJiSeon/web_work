@@ -24,7 +24,7 @@ public class SecurityConfig {
 	public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception{
 		String[] whiteList= {"/", "/play", "/user/loginform", "/user/login-fail", "/user/expired", 
 				"/user/signup-form", "/user/signup", "/user/checkid","/upload/**","/post/list", "/post/view**", 
-				"/file/list"};
+				"/file/list", "file/download"};
 		
 		httpSecurity
 		.headers(header->header.frameOptions(option->option.sameOrigin()))
