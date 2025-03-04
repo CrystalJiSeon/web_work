@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>사원 목록</title>
+    <style>
+        /* Modal 스타일 */
+        .modal {
+            display: none; 
+            position: fixed; 
+            z-index: 1; 
+            left: 0;
+            top: 0;
+            width: 100%; 
+            height: 100%;
+            overflow: auto;
+            background-color: rgb(0,0,0); 
+            background-color: rgba(0,0,0,0.4); 
+        }
+
+        .modal-content {
+            background-color: #fefefe;
+            margin: 30% auto;
+            padding: 50px;
+            border: 1px solid #888;
+            width: 50%;
+        }
+
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        .close:hover,
+        .close:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>사원 목록</h1>
+        <table>
+            <thead>
+                <tr>
+                    <th>사원번호</th>
+                    <th>사원이름</th>
+                    <th>부서번호</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="tmp : ${list}">
+                    <td>[[${tmp.empno}]]</td>
+                    <td><a href="#" class="emp-name" th:text="${tmp.ename}" th:data-empno="${tmp.empno}" 
+                    th:data-deptno="${tmp.deptno}" th:data-dname="${tmp.dname}" th:data-loc="${tmp.loc} " 
+                    th:data-job="${tmp.job}"th:data-Mgr="${tmp.mgr}" th:data-hireDate="${tmp.hiredate}" 
+                    th:data-sal="${tmp.sal}" th:data-comm="${tmp.comm}"></a></td>
+                    <td th:text="${tmp.deptno}"></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Modal -->
+    <div id="myModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>사원 정보</h2>
+            <p id="empEmpno">사원번호: </p>
+            <p id="empName">사원 이름: </p>
+            <p id="empDept">부서 번호: </p>
+            <p id="deptName">부서 이름: </p>
+            <p id="deptLoc">부서 위치: </p>
+            <p id="empJob">사원 직급: </p>
+            <p id="empMgr">사원 상사: </p>
+            <p id="hireDate">고용일자: </p>
+            <p id="empSal">사원 급여: </p>
+            <p id="empComm">사원 수당: </p>
+
+        </div>
+    </div>
+
+    <script>
+        // Modal 열기/닫기 로직
+        var modal = document.getElementById("myModal");
+        var closeBtn = document.getElementsByClassName("close")[0];
+
+        // 사원 이름을 클릭했을 때 modal을 열기
+        var empLinks = document.querySelectorAll(".emp-name");
+        empLinks.forEach(function(link) {
+            link.addEventListener("click", function(event) {
+                event.preventDefault(); // 링크 클릭 시 페이지 리로드 방지
+                var empno = this.getAttribute("data-empno");
+                var deptno = this.getAttribute("data-deptno");
+                var ename = this.innerText;
+                var dname = this.getAttribute("data-dname");
+                var loc = this.getAttribute("data-loc");
+                var job = this.getAttribute("data-job");
+                var mgr = this.getAttribute("data-Mgr");
+                var hiredate = this.getAttribute("data-hiredate");
+                var sal = this.getAttribute("data-sal");
+                var comm = this.getAttribute("data-comm");
+                
+                // modal에 정보 표시
+                document.getElementById("empEmpno").innerText = "사원 번호: " + empno;
+                document.getElementById("empName").innerText = "사원 이름: " + ename;
+                document.getElementById("empDept").innerText = "부서 번호: " + deptno;
+                document.getElementById("deptName").innerText = "부서 이름: " + dname;
+                document.getElementById("deptLoc").innerText = "부서 위치: " + loc;
+                document.getElementById("empJob").innerText = "사원 직급: " + job;
+                document.getElementById("empMgr").innerText = "사원 상사: " + mgr;
+                document.getElementById("hireDate").innerText = "고용 일자: " + hiredate;
+                document.getElementById("empSal").innerText = "사원 급여: " + sal;
+                document.getElementById("empComm").innerText = "사원 수당: " + comm;
+
+                // modal 열기
+                modal.style.display = "block";
+            });
+        });
+
+        // modal 닫기
+        closeBtn.onclick = function() {
+            modal.style.display = "none";
+        }
+
+        // modal 바깥을 클릭하면 닫히도록
+        window.onclick = function(event) {
+            if (event.target == modal) {
+                modal.style.display = "none";
+            }
+        }
+    </script>
+</body>
+</html>

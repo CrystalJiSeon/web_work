@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+		<a th:href="@{/member/new}">새 멤버 추가</a>
+		<table class="table table-striped">
+			<thead class="table-dark">
+				<tr>
+					<th>번호</th>
+					<th>이름</th>
+					<th>주소</th>
+					<th>수정</th>
+					<th>삭제</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr th:each="file: ${list}" >
+					<th>[[${file.num}]]</th>
+					<th>[[${file.name}]]</th>
+					<th>[[${file.addr}]]</th>
+					<th><a th:href="@{/member/edit(num=${file.num})}">수정</a></th>
+					<th><a th:href="@{/member/delete(num=${file.num})}">삭제</a></th>		
+				</tr>
+			</tbody>
+		</table>
+</body>
+</html>
