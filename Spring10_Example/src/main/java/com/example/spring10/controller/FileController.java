@@ -1,5 +1,7 @@
 package com.example.spring10.controller;
 
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.http.ResponseEntity;
@@ -63,11 +65,17 @@ public class FileController {
 		return "redirect:/file/list";
 	}
 	
-	@GetMapping("/file/download")
+	@GetMapping("/file/downloadcomplete")
+	public String downloadRefresh(long num, RedirectAttributes ra) {
+		ResponseEntity<InputStreamResource> re= this.downloadFile(num);
+		ra.addFlashAttribute("re", re);
+		ra.addFlashAttribute("downloadClicked", "다운로드가 클릭되었습니다");
+		return "redirect:/file/list";
+	}
+	@GetMapping("file/download")
 	public ResponseEntity<InputStreamResource> downloadFile(long num) {
 		FileDto dto= service.getData(num);
-		System.out.println(dto);
-		
+		service.manageDownloadCount(num);
 		return service.downloadFile(dto);
 	}
 }

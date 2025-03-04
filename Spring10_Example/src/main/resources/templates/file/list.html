@@ -29,8 +29,8 @@
 					<th>[[${file.title}]]</th>
 					<th>[[${file.uploader}]]</th>
 					<th>[[${file.uploadedAt}]]</th>
-					<th><a th:href="@{/file/download(num=${file.num})}">다운로드</a></th>
-					<th>어떡하지</th>
+					<th><a th:href="@{/file/download(num=${file.num})}" id="download">다운로드</a></th>
+					<th>[[${file.downloadCount}]]</th>
 					<th><a th:href="@{/file/edit(num=${file.num})}">수정</a></th>
 					<th><a th:href="@{/file/delete(num=${file.num})}">삭제</a></th>
 				</tr>
@@ -70,6 +70,7 @@
 	<script th:if="${uploadSuccess!=null}"> alert("파일이 성공적으로 저장되었습니다");	</script>
 	<script th:if="${deleteSuccess!=null}"> alert("파일이 성공적으로 삭제되었습니다");	</script>
 	<script th:if="${editSuccess!=null}"> alert("파일이 성공적으로 수정되었습니다");	</script>
+	<script th:if="${downloadClicked!=null}"> location.reload();	</script>
 
 	
 </body>

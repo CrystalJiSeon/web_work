@@ -171,5 +171,13 @@ public class FileServiceImpl implements FileService{
 	}
 
 
+	@Override
+	public void manageDownloadCount(long num) {
+		fileDao.addDownloadCount(num);
+		long count= fileDao.getDownloadCount(num);
+		fileDao.insertDownloadCount(num, count);
+	}
+
+
 
 }

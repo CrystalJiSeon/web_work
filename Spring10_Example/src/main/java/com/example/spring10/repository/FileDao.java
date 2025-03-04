@@ -12,4 +12,7 @@ public interface FileDao {
 	public List<FileDto> getList(FileDto dto);
 	public int getSequence(FileDto dto);
 	public int getCount(FileDto dto);
+	public long addDownloadCount(long num);
+	public long getDownloadCount(long num);
+	public int insertDownloadCount(long num, long count);
 }

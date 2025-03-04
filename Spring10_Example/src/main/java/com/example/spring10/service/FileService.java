@@ -16,4 +16,5 @@ public interface FileService {
 	public FileDto getData(long num);
 	public FileDto getFileList(FileDto search, int pageNum);
 	public ResponseEntity<InputStreamResource> downloadFile(FileDto dto);
+	public void manageDownloadCount(long fileNum);
 }

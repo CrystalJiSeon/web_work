@@ -42,14 +42,16 @@ title varchar2(100) not null,
 orgFileName varchar2(100) not null,
 savefilename varchar2(100) not null,
 filesize number not null,
-uploadedat date)
+uploadedat date,
+downloadCount number)
   
 create sequence files_seq;
 
-Sequence created.
+
 
 CREATE TABLE downloaded_data(
-	num NUMBER REFERENCES files(num),
-	session_Id VARCHAR2(50)
+	fileNum NUMBER REFERENCES files(num),
+	id number primary key
 );
+create sequence downloaded_seq;
 

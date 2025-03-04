@@ -15,6 +15,25 @@
 			   		</when>
 			</choose>
 	</sql>
+	
+
+	<insert id="addDownloadCount" parameterType="long">
+		insert into downloaded_data
+		(fileNum, id)
+		values (#{num}, downloaded_seq.nextval)
+	</insert>
+	<select id="countDownload" parameterType="long" resultType="long">
+		select count(rownum)
+		from downloaded_data
+		where fileNum=#{num}
+	</select>
+	<update id="insertDownloadCount" parameterType="map">
+		update files
+		set downloadCount = #{count}
+		where num= #{num}
+	</update>
+	
+	
 	<select id="getList" parameterType="com.example.spring10.dto.FileDto" resultType="com.example.spring10.dto.FileDto">
 		select *
 		from 
