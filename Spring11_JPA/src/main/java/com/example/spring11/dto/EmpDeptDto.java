@@ -50,7 +50,7 @@ public class EmpDeptDto {
 				.mgr(emp.getMgr()==null ? 0 : emp.getMgr())
 				.hiredate(hiredate)
 				.sal(emp.getSal())
-				.comm(emp.getComm()==null ? 0 : emp.getComm())
+				.comm(emp.getComm()==null ? 0000 : emp.getComm())
 				.deptno(emp.getDept().getDeptno())
 				.dname(emp.getDept().getDname())
 				.loc(emp.getDept().getLoc())
