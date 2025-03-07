@@ -41,7 +41,7 @@ public class PostController3 {
 	
 	@DeleteMapping("/posts/{id}")
 	public PostDto delete(@PathVariable("id") long id) {
-		return delete(id);
+		return service.delete(id);
 	}
 	
 	@PutMapping("/posts/{id}")
