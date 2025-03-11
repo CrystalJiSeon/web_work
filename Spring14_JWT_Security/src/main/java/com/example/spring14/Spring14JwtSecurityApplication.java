@@ -16,25 +16,25 @@ public class Spring14JwtSecurityApplication {
 		SpringApplication.run(Spring14JwtSecurityApplication.class, args);
 	}
 
-	//서버가 준비되었을 때 실행할 메소드 설정
-	@EventListener(ApplicationReadyEvent.class)
-	public void openChrome() {
-		String url = "http://localhost:9000/spring09/";
-		//운영체제의 이름을 소문자로
-		String os = System.getProperty("os.name").toLowerCase();
-		ProcessBuilder builder = null;
-		try {
-			if (os.contains("win")) {
-				builder = new ProcessBuilder("cmd.exe", "/c", "start chrome " + url);
-			} else if (os.contains("mac")) {
-				builder = new ProcessBuilder("/user/bin/open", "-a", "Google Chrome", url);
-			} else {
-				System.out.println("지원하지 않는 운영체제입니다.");
-				return;
-			}
-			builder.start();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
+//	//서버가 준비되었을 때 실행할 메소드 설정
+//	@EventListener(ApplicationReadyEvent.class)
+//	public void openChrome() {
+//		String url = "http://localhost:9000/spring09/";
+//		//운영체제의 이름을 소문자로
+//		String os = System.getProperty("os.name").toLowerCase();
+//		ProcessBuilder builder = null;
+//		try {
+//			if (os.contains("win")) {
+//				builder = new ProcessBuilder("cmd.exe", "/c", "start chrome " + url);
+//			} else if (os.contains("mac")) {
+//				builder = new ProcessBuilder("/user/bin/open", "-a", "Google Chrome", url);
+//			} else {
+//				System.out.println("지원하지 않는 운영체제입니다.");
+//				return;
+//			}
+//			builder.start();
+//		} catch (IOException e) {
+//			e.printStackTrace();
+//		}
+//	}
 }

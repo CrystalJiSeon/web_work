@@ -1,12 +1,53 @@
 package com.example.spring14.controller;
 
+import java.util.Map;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.example.spring14.dto.UserDto;
+import com.example.spring14.util.JwtUtil;
 
 @Controller
 public class UserController {
+	
+	@GetMapping("/api/ping")//white 리스트에 등록되지 않은 요청은 token 이 있어야 요청이 가능하다
+	@ResponseBody
+	public String ping() {
+		return "pong";
+	}
+	
+	@Autowired JwtUtil jwtUtil;
+	@Autowired AuthenticationManager authManager;
+	//리액트에서 로그인할 때/탭드 포스트맨으로 요청하면 토큰을 발급받을 수 있는 기능 구현해보기
+	//토큰이 없어도 아래 경로 요청이 가능해야 하니 아래 경로도 화이트리스트에 추가하기
+	@PostMapping("/api/auth")
+	@ResponseBody
+	public String auth(@RequestBody UserDto dto)throws Exception{
+		try {
+			UsernamePasswordAuthenticationToken authToken=
+					new UsernamePasswordAuthenticationToken(dto.getUserName(), dto.getPassword());
+			//인증 매니저객체를 이용해서 인증을 진행한다
+			authManager.authenticate(authToken);
+		}catch(Exception e){
+			//예외가 발생하면 인증실패(아이디 혹은 비밀번호 틀림 등등...)
+			e.printStackTrace();
+			throw new RuntimeException("아이디 혹은 비밀번호가 틀려요");
+		}
+		//sample claims
+		Map<String, Object> claims=Map.of("role","USER", "email","aaa@naver.com");
+		//예외가 발생하지 않고 여기까지 실행된다면 인증을 통과한 것이다. 토큰을 발급해서 응답한다.
+		String token = jwtUtil.generateToken(dto.getUserName(), claims);
+		return "Bearer "+token;
+	}
+	
 	//세션 허용갯수 초과시 
 	@GetMapping("/user/expired")
 	public String userExpired() {
