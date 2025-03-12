@@ -3,6 +3,8 @@ package com.example.spring14.controller;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -27,12 +29,13 @@ public class UserController {
 	}
 	
 	@Autowired JwtUtil jwtUtil;
+	//SecurityConfig 클래스에서 Bean으로 만든 AutheticationManager 객체 주입 받기
 	@Autowired AuthenticationManager authManager;
 	//리액트에서 로그인할 때/탭드 포스트맨으로 요청하면 토큰을 발급받을 수 있는 기능 구현해보기
 	//토큰이 없어도 아래 경로 요청이 가능해야 하니 아래 경로도 화이트리스트에 추가하기
 	@PostMapping("/api/auth")
-	@ResponseBody
-	public String auth(@RequestBody UserDto dto)throws Exception{
+	//@ResponseBody : return 타입이 ResponseEntity일땐 생략 가능(자체 기능이 있음)
+	public ResponseEntity<String> auth(@RequestBody UserDto dto)throws Exception{
 		Authentication authentication=null;
 		try {
 			UsernamePasswordAuthenticationToken authToken=
@@ -43,7 +46,7 @@ public class UserController {
 		}catch(Exception e){
 			//예외가 발생하면 인증실패(아이디 혹은 비밀번호 틀림 등등...)
 			e.printStackTrace();
-			throw new RuntimeException("아이디 혹은 비밀번호가 틀려요");
+			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("인증 실패!!");
 		}
 		
 		// Authentication 객체에는 인증된 사용자 정보가 들어 있다.
@@ -57,7 +60,8 @@ public class UserController {
 		
 		//예외가 발생하지 않고 여기까지 실행된다면 인증을 통과한 것이다. 토큰을 발급해서 응답한다.
 		String token = jwtUtil.generateToken(dto.getUserName(), claims);
-		return "Bearer "+token;
+		//발급받은 토큰 문자열을 ReponseEntity에 담아서 리턴한다.
+		return ResponseEntity.ok("Bearer "+token);
 	}
 	
 	//세션 허용갯수 초과시 
