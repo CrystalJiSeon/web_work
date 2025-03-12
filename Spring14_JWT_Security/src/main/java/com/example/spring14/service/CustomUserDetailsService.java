@@ -51,6 +51,7 @@ public class CustomUserDetailsService implements UserDetailsService{
 		
 		//권한 목록을 List 에 담아서  (지금은 1개 이지만)
 		List<GrantedAuthority> authList=new ArrayList<>();
+		//Authority 객체를 생성하는 것이기 때문에 생성자에 ROLE_XXX 형식의 문자열을 넣어 줘야 한다.
 		authList.add(new SimpleGrantedAuthority(dto.getRole()));
 		
 		//UserDetails 객체를 생성해서 

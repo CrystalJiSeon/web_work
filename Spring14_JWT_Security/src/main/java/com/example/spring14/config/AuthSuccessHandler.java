@@ -2,14 +2,13 @@ package com.example.spring14.config;
 
 import java.io.IOException;
 import java.net.URLEncoder;
-import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.web.authentication.SavedRequestAwareAuthenticationSuccessHandler;
 import org.springframework.security.web.savedrequest.CookieRequestCache;
 import org.springframework.security.web.savedrequest.SavedRequest;
@@ -22,7 +21,6 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import lombok.Setter;
 
 /*
  *  로그인 성공후에 호출될 메소드를 가지고 있는 클래스 정의하기 
@@ -50,10 +48,16 @@ public class AuthSuccessHandler extends SavedRequestAwareAuthenticationSuccessHa
 	@Override
 	public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
 			Authentication authentication) throws ServletException, IOException {
+		//Authentication 객체에는 인증된 사용자 정보가 들어 있다.
+		//userName, Role, 등의 정보
+		//현재는 role을 하나만 부여하기 때문에 0번방에 있는 데이터만 불러오면 된다.
+		GrantedAuthority authority= authentication.getAuthorities().stream().toList().get(0);
+		//ROLE_XXX형식
+		String role=authority.getAuthority();
+		//"role"이라는 키값으로 Map 에 담기
+		Map<String, Object> claims=Map.of("role", role);
 		
-		Map<String, Object> claims=Map.of("role","USER", "email","aaa@naver.com");
-	
-    	//여기 까지 실행순서가 넘어오면 인증을 통과 했으므로 토큰을 발급해서 응답한다.
+		//여기 까지 실행순서가 넘어오면 인증을 통과 했으므로 토큰을 발급해서 응답한다.
 		String jwtToken=jwtUtil.generateToken(authentication.getName(), claims);
 		
 		//공백문자때문에 인코딩을 해서 저장해야 함
