@@ -6,6 +6,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -22,6 +23,7 @@ import jakarta.servlet.http.Cookie;
 
 @Configuration //설정 클래스라고 알려준다
 @EnableWebSecurity //Security 를 설정하기 위한 어노테이션
+@EnableMethodSecurity(securedEnabled=true)//Controller 메소드에서 권한 체크가능하도록 해주는 어노테이션
 public class SecurityConfig {
 	
 	//jwt 를 쿠키로 저장할때 쿠키의 이름
@@ -31,6 +33,7 @@ public class SecurityConfig {
 	@Autowired
 	private JwtFilter jwtFilter;
 	
+
 	/*
 	 *  매개변수에 전달되는 HttpSecurity 객체를 이용해서 우리의 프로젝트 상황에 맞는 설정을 기반으로 
 	 *  만들어진 SecurityFilterChain 객체를 리턴해주어야 한다.
@@ -38,7 +41,7 @@ public class SecurityConfig {
 	 */
 	@Bean //메소드에서 리턴되는 SecurityFilterChain 을 bean 으로 만들어준다.
 	public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity, 
-			AuthSuccessHandler successHandler) throws Exception{
+			AuthSuccessHandler successHandler, AuthFailHandler failHandler) throws Exception{
 		String[] whiteList= {"/error", "/favicon.ico",
 				"/", "/play", "/user/loginform", "/user/login-fail", "/user/expired", "/api/auth"};
 		 
@@ -61,7 +64,8 @@ public class SecurityConfig {
 				.usernameParameter("userName")
 				.passwordParameter("password")
 				.successHandler(successHandler) //로그인 성공 핸들러 등록
-				.failureForwardUrl("/user/login-fail")
+				.failureHandler(failHandler)//단순히 failuredp 대해 forward 되는 것 대신에 Handler 등록하기
+				//.failureForwardUrl("/user/login-fail")
 				.permitAll() //위에 명시한 모든 요청경로를 로그인 없이 요청할수 있도록 설정 
 		)
 		.logout(config ->

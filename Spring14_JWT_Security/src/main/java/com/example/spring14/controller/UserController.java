@@ -5,6 +5,7 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -21,7 +22,16 @@ import com.example.spring14.util.JwtUtil;
 
 @Controller
 public class UserController {
+	@Secured("ROLE_ADMIN")
+	//@PreAuthorize("hasRole('ADMIN')") 
+	@GetMapping("/secured/ping")
+	@ResponseBody
+	public String securedPing() {
+		
+		return "secured pong";
+	}
 	
+
 	@GetMapping("/api/ping")//white 리스트에 등록되지 않은 요청은 token 이 있어야 요청이 가능하다
 	@ResponseBody
 	public String ping() {
@@ -90,7 +100,7 @@ public class UserController {
 	}
 	
 	
-	@GetMapping("/user/loginform")
+	@RequestMapping("/user/loginform")
 	public String loginform() {
 		// templates/user/loginform.html 페이지로 forward 이동해서 응답 
 		return "user/loginform";
