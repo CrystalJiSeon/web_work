@@ -30,6 +30,7 @@ public class UserController {
 	@PostMapping("/signup")
 	public String signup(@RequestBody UserDto dto) throws Exception{
 		System.out.println("hi");
+		userService.createUser(dto);
 		return "signed-up";
 	}
 	
@@ -62,7 +63,7 @@ public class UserController {
 	
 	@PostMapping("/auth") 
 	public ResponseEntity<String> auth(@RequestBody UserDto dto) throws Exception{
-		System.out.println("hi");
+		System.out.println("authsuccess");
 		Authentication authentication=null;
 		try {
 			UsernamePasswordAuthenticationToken authToken=

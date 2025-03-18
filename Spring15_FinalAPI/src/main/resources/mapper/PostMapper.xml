@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="post">
+
+	<sql id="column">
+		num, writer, title, content, viewCount, updatedAt, createdAt
+	</sql>
+
+	<sql id="search">
+			<choose>
+			   		<when test="condition =='writer'">
+			   			where writer like '%'||#{keyword}||'%'
+			   		</when>
+			   		<when test="condition =='title'">
+			   			where title like '%'||#{keyword}||'%'
+			   		</when>
+			   		<when test="condition =='title_content'">
+			   			where title like '%'||#{keyword}||'%' or content like '%'||#{keyword}||'%'
+			   		</when>
+			</choose>
+	</sql>
+	
+	<insert id="insertReaded" parameterType="map">
+		insert into readed_data
+		(num, session_id)
+		values(#{num}, #{sessionId})
+	</insert>
+
+	<select id="isReaded" parameterType="map" resultType="map">
+		select *
+		from readed_data
+		where num=#{num} and session_id=#{sessionId}
+	</select>
+	
+	<update id="addViewCount" parameterType="long">
+		update posts
+		set viewcount=viewCount+1
+		where num=#{num}
+	</update>
+	<!-- 
+		parameter 로 전달되는 PostDto 에는 검색 keyword 가 있을수 있다. 
+		keyword 가 있다면 keword 에 해당하는 글 목록중에서 이전글의 글번호와 다음글의 글번호를 select 해야한다. 
+	 -->
+	<select id="getDetail" parameterType="postDto" resultType="postDto">
+		SELECT *
+		FROM
+			(SELECT <include refid="column"/>, 
+				LAG(num, 1, 0) OVER (ORDER BY num DESC) AS prevNum,
+				LEAD(num, 1, 0) OVER (ORDER BY num DESC) AS nextNum
+			FROM posts
+			<include refid="search"/> ) result1
+		WHERE num=#{num}
+	</select>
+
+	<insert id="insert" parameterType="postDto">
+		insert into posts
+		(num, writer, title, content)
+		values (#{num}, #{writer}, #{title}, #{content})
+	</insert>
+	
+	<update id="update" parameterType="postDto">
+		update posts
+		set title=#{title}, content=#{content}, updatedAt=sysdate
+		where num=#{num}
+	</update>
+	
+	<delete id="delete" parameterType="long">
+		delete from posts
+		where num=#{num}
+	</delete>
+
+
+	<select id="getCount" parameterType="postDto" resultType="int">
+		select nvl(max(rownum),0)
+		from posts
+		<include refid="search"/>
+	</select>
+	
+
+	<select id="getList" parameterType="postDto" resultType="postDto">
+		select *
+		from 
+			(select result1.*, rownum as rnum
+			 from (select num, writer, title, content, viewCount, updatedAt, createdAt
+				   from posts
+					<include refid="search"/>
+				   order by num desc) result1)
+		where rnum between #{startRowNum} and #{endRowNum}
+	</select>
+
+	<select id="getSequence" resultType="long">
+		select posts_seq.nextval
+		from dual
+	</select>
+	
+	<select id="getData" parameterType="long" resultType="postDto">
+		select <include refid="column"/>
+		from posts
+		where num = #{num}
+	</select>
+
+	<delete id="deleteReaded" parameterType="long">
+		delete from readed_data
+		where num=#{num}
+	</delete>
+
+
+</mapper>
