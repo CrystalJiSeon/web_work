@@ -43,19 +43,24 @@ public class PostController {
 	
 	
 	
-	@GetMapping("/post/comment-list")
-	@ResponseBody//Gson 기능이 내장되어서 Map을 응답하는 곳의 body에 넣어주면 알아서 json으로 응답함
-	public Map<String, Object> commentList(CommentListRequest clr){
-		//CommentListRequest 객체에는 댓글의 list만이 아니라 댓글의 pageNum과 원글의 글번호 postNum이 들어있다.
-		return service.getComments(clr);
+	@GetMapping("/post/{num}/comments")
+	public Map<String, Object> commentList(@PathVariable("num") long num, int pageNum){
+		//CommentListRequest에 필요한 정보를 담고
+		CommentListRequest clr=new CommentListRequest();
+		clr.setPageNum(pageNum);
+		clr.setPostNum(num);
+		//서비스를 이용해서 댓글 목록 정보를 얻어내서 응답한다.
+		return service.getComments(clr); // list 라는 키값으로 List를 담고, totalPageCount라는 키값으로 pageNum을 담아옴. {"list":[{},{},{}], "totalPageCount":19} 형태
 		
 	}
 	 
 	
 	//댓글 저장 요청 처리
-	@PostMapping("/post/save-comment")
-	@ResponseBody//dto 에 저장된 내용을 json으로 응답하기 위한 어노테이션
-	public CommentDto saveComment(CommentDto dto) {
+	@PostMapping("/posts/{num}/comments")
+	public CommentDto saveComment(@PathVariable(value="num") long num, @RequestBody CommentDto dto) {
+		//dto에 원글 번호 담기
+		dto.setPostNum(num);
+		//서비스를 이용해서 댓글 저장
 		service.createComment(dto);
 		return dto;
 	}
