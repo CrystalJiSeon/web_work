@@ -43,7 +43,7 @@ public class PostController {
 	
 	
 	
-	@GetMapping("/post/{num}/comments")
+	@GetMapping("/posts/{num}/comments")
 	public Map<String, Object> commentList(@PathVariable("num") long num, int pageNum){
 		//CommentListRequest에 필요한 정보를 담고
 		CommentListRequest clr=new CommentListRequest();
