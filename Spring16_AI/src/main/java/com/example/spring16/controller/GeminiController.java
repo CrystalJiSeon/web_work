@@ -8,12 +8,19 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.spring16.service.GeminiService;
+import com.example.spring16.service.GeminiService2;
 
 import reactor.core.publisher.Mono;
+
+//  [Mono<T> 객체에 대하여]
+//   - 비동기 동작을 지원하는 객체이다
+//   - 컨트롤러에서 아직 동작이 완료되지 않은 Mono 객체를 리턴한다
+//   - 리턴된 Mono 객체를 Spring WebFlux가 받아서 동작이 완료되면 결과를 클라이언트에게 응답한다. <-dependency의 webflux 덕분에 사용
 
 @RestController
 public class GeminiController {
 	@Autowired GeminiService service;
+	@Autowired GeminiService2 service2;
 	
 	// Post 방식 /ask 요청을 하면서 아래의 형식과 같은 json 문자열을 전송하면 된다.
 	// {"prompt":"질문"}
@@ -24,4 +31,21 @@ public class GeminiController {
 		//서비스를 이용해서 질문에 대한 답을 리턴한다
 		return service.getChatResponse(prompt);
 	}
+	
+
+ 	@PostMapping("/food")
+ 	public Mono<String> food(@RequestBody Map<String, String> request){
+ 		//질문 얻어내기
+ 		String prompt = request.get("prompt");
+ 		//서비스를 이용해서 질문에 대한 답을 리턴한다.
+ 		return service.getFoodCategory(prompt);
+ 	}
+	
+ 	@PostMapping("/ask2")
+ 	public String ask2(@RequestBody Map<String, String> request){
+ 		//질문 얻어내기
+ 		String prompt = request.get("prompt");
+ 		//서비스를 이용해서 질문에 대한 답을 리턴한다.
+ 		return service2.getChatResponseSync(prompt);
+ 	}
 }

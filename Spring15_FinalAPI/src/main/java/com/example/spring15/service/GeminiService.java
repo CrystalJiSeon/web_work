@@ -1,4 +1,4 @@
-package com.example.spring16.service;
+package com.example.spring15.service;
 
 import java.util.List;
 import java.util.Map;
@@ -8,6 +8,7 @@ import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 
+import com.example.spring15.dto.GeminiResponse;
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
 
