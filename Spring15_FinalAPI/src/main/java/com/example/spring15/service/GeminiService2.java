@@ -1,12 +1,12 @@
 package com.example.spring15.service;
 
+
+
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
@@ -36,7 +36,36 @@ public class GeminiService2 {
 	   this.url=url;
 	   this.webClient=builder.baseUrl(url).build();
     }
+    
+    public Mono<String> quiz2(Map<String, String> map){
+    	//map에는 quiz와 answer가 담겨있다.
+    	// Gemini api 요청을 통해서 해당 answer가 맞으면 {"isCorrect":true, "comment":"code 피드백"} 틀리면 {"isCorrect":false, "comment": "틀린이유설명"} 형식의 json 문자열을 Gemini가 응답하도록 프로그래밍 해보세요 
+    	String str="""
+    			클라이언트가 입력한 답 : ""
+    			
+    			클라이언트가 입력한 답의 정답여부를 boolean 타입으로, 정답여부에 따른 comment는 마크다운 형식의 String 타입으로 반환해.
+    			사용할 형식은 답이 정답일 때 {"isCorrect":true, "comment":""} 형식이고, comment에는 code에 대한 피드백(참 잘했어요 등)을 반환해줘.
+    			답이 틀렸을 때 {"isCorrect":false, "comment":""}이고, comment에는 code가 틀린 이유를 반환해줘. 
+    			
+    			""".formatted(map.get("quiz"), map.get("answer"));
+    	return getChatResponse(str);
+    }
 
+    public Mono<String> quiz(Map<String,String> map){
+    	//map에는 quiz와 answer가 담겨있다. gemini api 요청을 통해서 해당 answer가 맞으면 {"isCorrect":true} 틀리면 {"isCorrect":false}형식의 json 문자열을 Gemini가 응답하도록 프로그래밍 해보기
+    	
+    	String str="""
+    			퀴즈의 질문 : "%s"
+    			클라이언트가 입력한 답 : "%s"
+    			
+    			
+    			클라이언트가 입력한 답의 정답여부를 boolean 타입으로 반환해.
+    			반환할 때 응답형식은 맞는 정답일 때 {"isCorrect":true} 틀린 정답일 때 {"isCorrect:false"}로 반환해줘.   			
+    			""".formatted(map.get("quiz"), map.get("answer"));
+    	return getChatResponse(str);
+    		
+    }
+    
     public Mono<String> getFoodCategory(String food) {
         String str = """
             클라이언트가 입력한 음식: "%s"
@@ -94,7 +123,11 @@ public class GeminiService2 {
  				.contentType(MediaType.APPLICATION_JSON).bodyValue(reqeustBody).retrieve().bodyToMono(String.class)
  				.doOnNext(responseBody -> System.out.println(responseBody)).flatMap(responseBody -> {
  					try {
- 						return Mono.just(extractResponse(responseBody));
+ 						//String result=extractResponse(responseBody);
+ 						//만일 문자열의 앞과 뒤에 ```json, ```이 존재한다면 제거하기
+ 						//String escaped =result.replaceAll("^```json\\s*","").replaceAll("\\s&```$", "");
+ 						//return Mono.just(extractResponse(escaped));
+ 						return Mono.just(responseBody);
  					} catch (Exception e) {
  						return Mono.error(new RuntimeException("JSON 파싱 오류", e));
  					}
