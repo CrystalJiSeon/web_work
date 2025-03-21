@@ -58,9 +58,9 @@ public class GeminiService2 {
     			퀴즈의 질문 : "%s"
     			클라이언트가 입력한 답 : "%s"
     			
-    			
     			클라이언트가 입력한 답의 정답여부를 boolean 타입으로 반환해.
-    			반환할 때 응답형식은 맞는 정답일 때 {"isCorrect":true} 틀린 정답일 때 {"isCorrect:false"}로 반환해줘.   			
+    			반환할 때 응답형식은 맞는 정답일 때 {"isCorrect":true} 틀린 정답일 때 {"isCorrect:false"}로 반환해줘. 
+    			설명없이 json 객체만 반환해줘.   			
     			""".formatted(map.get("quiz"), map.get("answer"));
     	return getChatResponse(str);
     		
