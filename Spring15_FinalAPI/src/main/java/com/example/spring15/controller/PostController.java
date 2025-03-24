@@ -26,13 +26,20 @@ import com.example.spring15.service.PostService;
 public class PostController {
 
 	@Autowired private PostService service;
+
 	
-	@PostMapping("/post/update-comment") @ResponseBody
-	public Map<String, Boolean> updateComment(CommentDto dto){
+	@PatchMapping("/posts/{num}/comments")
+	public Map<String, Boolean> updateComment(@RequestBody CommentDto dto){
+		//dto에는 댓글의 글번호와 댓글의 내용이 들어있다.
 		service.updateComment(dto);
 		return Map.of("isSuccess", true);
 	}
-	
+//	@PostMapping("/post/update-comment") @ResponseBody
+//	public Map<String, Boolean> updateComment(CommentDto dto){
+//		service.updateComment(dto);
+//		return Map.of("isSuccess", true);
+//	}
+//	
 	@GetMapping("/post/delete-comment")	@ResponseBody //이렇게 작성해도 문제 없어
 	public Map<String, Boolean> deleteComment(long num){
 		service.deleteComment(num);
@@ -47,8 +54,8 @@ public class PostController {
 	public Map<String, Object> commentList(@PathVariable("num") long num, int pageNum){
 		//CommentListRequest에 필요한 정보를 담고
 		CommentListRequest clr=new CommentListRequest();
-		clr.setPageNum(pageNum);
 		clr.setPostNum(num);
+		clr.setPageNum(pageNum);
 		//서비스를 이용해서 댓글 목록 정보를 얻어내서 응답한다.
 		return service.getComments(clr); // list 라는 키값으로 List를 담고, totalPageCount라는 키값으로 pageNum을 담아옴. {"list":[{},{},{}], "totalPageCount":19} 형태
 		
@@ -86,15 +93,15 @@ public class PostController {
 		return dto;
 	}
 	
-	//글 수정 폼 요청처리
-	@GetMapping("/post/edit")
-	public String edit(long num, Model model) {
-		//수정할 글 정보를 얻어와서 Model 객체에 담는다.
-		PostDto dto= service.getByNum(num);
-		model.addAttribute("dto", dto);
-		return "post/edit";
-	}
-	
+//	//글 수정 폼 요청처리
+//	@GetMapping("/post/edit")
+//	public String edit(long num, Model model) {
+//		//수정할 글 정보를 얻어와서 Model 객체에 담는다.
+//		PostDto dto= service.getByNum(num);
+//		model.addAttribute("dto", dto);
+//		return "post/edit";
+//	}
+//	
 
 	
 	@GetMapping("/posts/{num}")
