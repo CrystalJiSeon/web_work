@@ -5,7 +5,7 @@
 	<insert id="insert" parameterType="commentDto">
 		INSERT INTO comments
 		(num, writer, content, targetWriter, postNum, parentNum, createdAt)
-		VALUES (comments_seq.nextval, #{writer}, #{content}, #{targetWriter}, #{postNum}, #{parentNum}, SYSDATE) 
+		VALUES (#{num}, #{writer}, #{content}, #{targetWriter}, #{postNum}, #{parentNum}, SYSDATE) 
 	</insert>
 	
 	<!-- 댓글 수정 -->

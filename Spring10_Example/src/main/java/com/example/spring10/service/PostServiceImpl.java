@@ -145,7 +145,7 @@ public class PostServiceImpl implements PostService{
 	public void createComment(CommentDto dto) {
 		//로그인한 유저 = 작성자
 		String writer= SecurityContextHolder.getContext().getAuthentication().getName();
-		dto.setWriter(writer);
+	
 		//글 번호 가져와서 Comment의 글번호에 저장
 		long num = commentDao.getSequence();
 		long parentNum=dto.getParentNum();
